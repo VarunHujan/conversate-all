@@ -3,19 +3,21 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import SubSidebar from "./SubSidebar";
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const { sidebarCollapsed, subSidebarOpen } = useApp();
+  const isMobile = useIsMobile();
 
-  const sidebarWidth = sidebarCollapsed ? 64 : 240;
-  const subWidth = subSidebarOpen ? 260 : 0;
+  const sidebarWidth = isMobile ? 0 : sidebarCollapsed ? 64 : 240;
+  const subWidth = isMobile ? 0 : subSidebarOpen ? 260 : 0;
   const marginLeft = sidebarWidth + subWidth;
 
   return (
     <div className="min-h-screen bg-background transition-theme">
       <Navbar />
       <Sidebar />
-      <SubSidebar />
+      {!isMobile && <SubSidebar />}
       <motion.main
         animate={{ marginLeft }}
         transition={{ duration: 0.3, ease: "easeInOut" }}

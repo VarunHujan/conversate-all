@@ -35,6 +35,8 @@ interface AppContextType {
   loadChat: (id: string) => void;
   clearHistory: () => void;
   activeMessages: ChatMessage[];
+  mobileSidebarOpen: boolean;
+  setMobileSidebarOpen: (v: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -52,6 +54,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeMode, setActiveMode] = useState<ChatMode>(null);
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const startNewChat = useCallback((mode: ChatMode) => {
     const id = crypto.randomUUID();
@@ -106,6 +109,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         chatSessions, activeChatId,
         startNewChat, addMessage, loadChat, clearHistory,
         activeMessages,
+        mobileSidebarOpen, setMobileSidebarOpen,
       }}
     >
       {children}
